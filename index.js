@@ -12,30 +12,35 @@ app.get('/:dateStr', function(req, res){
 app.listen(port);
 
 function parseStr(str) {
-  var unix = '';
-  var natural = '';
   var obj = {
     unix: null,
     natural: null
   };
+  var date;
   //if its a number
   if(!isNaN(str)) {
     //use unix timestamp and create natural date
-    var date = new Date(parseInt(str)*1000);
-    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    var day = date.getDate();
-    var month = months[date.getMonth()];
-    var year = date.getFullYear();
-    var naturalDate = day + ' ' + month + ', ' + year;
+    date = new Date(parseInt(str*1000));
     obj.unix = str;
-    obj.natural = naturalDate;
+    obj.natural = genNatural(date);
   }
   else {
     //parse natural date and generate unix timestamp
-    var unixTs = new Date(str).getTime()/1000;
-    obj.unix = unixTs;
+    date = new Date(str);
+    obj.unix = genUnix(date);
     obj.natural = str;
   }
   return obj;
-
+}
+function genUnix(date) {
+  var unixTs = date.getTime()/1000;
+  return unixTs;
+}
+function genNatural(date) {
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var day = date.getDate();
+  var month = months[date.getMonth()];
+  var year = date.getFullYear();
+  var naturalDate = day + ' ' + month + ', ' + year;
+  return naturalDate;
 }
