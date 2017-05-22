@@ -36,7 +36,6 @@ function genUnix(date) {
   //getTime() returns number of milliseconds. Convert them to seconds by dividing it by 1000
   var offset = date.getTimezoneOffset();//to get the difference between UTC and local time
   var unixTs = date.getTime()/1000 - (offset*60);
-  console.log(offset + " " + unixTs);
   return unixTs;
 }
 function genNatural(date) {
